@@ -1,0 +1,16 @@
+node_modules
+cypress/videos
+cypress/screenshots
+cypress/logs
+.env
+*.log
+*.aes
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+.idea
+**/*.mp4
+
+# IGNORE LOCAL ENV CONFIG
+cypress.env.json
