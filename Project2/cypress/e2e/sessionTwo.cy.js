@@ -12,4 +12,4 @@ describe('tasks page', () => {
     cy.get('h1').contains('My Cypress Course Tasks');
   });
 
-});
+}); // basic checks
