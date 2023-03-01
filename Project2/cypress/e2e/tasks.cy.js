@@ -1,8 +1,12 @@
 /// <reference types="Cypress" />
 
+
 describe('tasks management', () => {
-    it('should open and close the new task modal', () => {
+    beforeEach(() => {
         cy.visit('http://127.0.0.1:5173');
+    });
+    it('should open and close the new task modal', () => {
+
         cy.contains('Add Task').click();
         cy.get('.backdrop').click({
             force: true
@@ -17,7 +21,7 @@ describe('tasks management', () => {
     });
 
     it('should create a new task', () => {
-        cy.visit('http://127.0.0.1:5173');
+
         cy.contains('Add Task').click();
         cy.get('#title').type('New Task');
         cy.get('#summary').type('Some description');
@@ -30,14 +34,14 @@ describe('tasks management', () => {
     });
 
     it('should validate user input', () => {
-        cy.visit('http://127.0.0.1:5173');
+
         cy.contains('Add Task').click();
         cy.get('.modal').contains('Add Task').click();
         cy.contains('Please provide values');
     })
 
     it('should filter tasks', () => {
-        cy.visit('http://127.0.0.1:5173');
+
         cy.contains('Add Task').click();
         cy.get('#title').type('New Task');
         cy.get('#summary').type('Some description');
@@ -53,7 +57,7 @@ describe('tasks management', () => {
     });
 
     it('should add multiple tasks', () => {
-        cy.visit('http://127.0.0.1:5173');
+
         cy.contains('Add Task').click();
         cy.get('#title').type('Task 1');
         cy.get('#summary').type('First task');
