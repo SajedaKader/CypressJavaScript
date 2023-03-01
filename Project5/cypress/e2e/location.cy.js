@@ -2,19 +2,17 @@
 
 describe('share location', () => {
   beforeEach(() => {
+    cy.fixture('user-location.json').as('userLocation');
     cy.visit('/').then((win) => {
-      cy.stub(win.navigator.geolocation, 'getCurrentPosition')
-        .as('getUserPosition')
-        .callsFake((cb) => {
-          setTimeout(() => {
-            cb({
-              coords: {
-                latitude: 37.5,
-                longitude: 40.01,
-              },
-            });
-          }, 100);
-        });
+      cy.get('@userLocation').then(fakePosition => {
+        cy.stub(win.navigator.geolocation, 'getCurrentPosition')
+          .as('getUserPosition')
+          .callsFake((cb) => {
+            setTimeout(() => {
+              cb(fakePosition);
+            }, 100);
+          });
+      });
       cy.stub(win.navigator.clipboard, 'writeText')
         .as('saveToClipBoard')
         .resolves();
@@ -32,9 +30,15 @@ describe('share location', () => {
     cy.get('[data-cy="get-loc-btn"]').click();
     cy.get('[data-cy="share-loc-btn"]').click();
     cy.get('@saveToClipBoard').should('have.been.called');
-    cy.get('@saveToClipBoard').should(
-      'have.been.calledWithMatch',
-      new RegExp(`${37.5}.*${40.01}.*${encodeURI('John Do')}`)
-    );
+    cy.get('@userLocation').then(fakePosition => {
+      const {
+        latitude,
+        longitude
+      } = fakePosition.coords;
+      cy.get('@saveToClipBoard').should(
+        'have.been.calledWithMatch',
+        new RegExp(`${latitude}.*${longitude}.*${encodeURI('John Do')}`)
+      );
+    });
   });
 });
