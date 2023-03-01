@@ -18,9 +18,9 @@ describe('contact form', () => {
 
   it('should submit the form', () => {
 
-    cy.get('[data-cy="contact-input-message"]').type('Hello world!');
-    cy.get('[data-cy="contact-input-name"]').type('John Doe');
-    cy.get('[data-cy="contact-btn-submit"]').then((el) => {
+    cy.getById('contact-input-message').type('Hello world!');
+    cy.getById('contact-input-name').type('John Doe');
+    cy.getById('contact-btn-submit').then((el) => {
       expect(el.attr('disabled')).to.be.undefined;
       expect(el.text()).to.eq('Send Message');
     });
